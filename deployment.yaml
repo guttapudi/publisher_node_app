@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: publisher-app
+  name: publisher-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: publisher-app
+    spec:
+      serviceAccountName: pub-sub-publisher-k8s
+      containers:
+      - image: us-central1-docker.pkg.dev/rational-terra-336303/node-apps/pub-sub-workload-identity:v1
+        name: pub-sub-workload-identity
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: publisher-app
+  name: publisher-app
+  namespace: default
+spec:
+  ports:
+  - nodePort: 31861
+    port: 5050
+    protocol: TCP
+    targetPort: 5050
+  selector:
+    app: publisher-app
+  sessionAffinity: None
+  type: LoadBalancer
