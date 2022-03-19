@@ -24,5 +24,5 @@ app.get('/publish', (req,res) => {
 const appPort = process.env.PORT || 5050;
 
 app.listen(appPort, '0.0.0.0', function() {
-  console.log('cat server started, listening on port', appPort);
+  console.log(' server started, listening on port', appPort);
 });
